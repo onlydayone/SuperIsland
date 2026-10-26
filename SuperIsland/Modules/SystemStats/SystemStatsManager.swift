@@ -16,6 +16,9 @@ final class SystemStatsManager: ObservableObject {
     @Published private(set) var uploadSpeedFormatted: String = "0 B/s"
     @Published private(set) var downloadSpeedCompact: String = "0B"
     @Published private(set) var uploadSpeedCompact: String = "0B"
+    @Published private(set) var chipName: String = ""
+    @Published private(set) var coreCount: Int = 0
+    @Published private(set) var hardwareSummary: String = ""
     @Published private(set) var cpuHistory: [Double] = []
     @Published private(set) var netHistory: [Double] = []
 
@@ -28,9 +31,38 @@ final class SystemStatsManager: ObservableObject {
     private let maxHistorySamples = 16
 
     private init() {
+        initHardwareInfo()
         initRamTotal()
         registerRefreshJob()
         updateStats()
+    }
+
+    private func initHardwareInfo() {
+        var size = 0
+        sysctlbyname("machdep.cpu.brand_string", nil, &size, nil, 0)
+        var brand = ""
+        if size > 0 {
+            var machine = [CChar](repeating: 0, count: size)
+            sysctlbyname("machdep.cpu.brand_string", &machine, &size, nil, 0)
+            brand = String(cString: machine).trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+        if brand.isEmpty {
+            var modelSize = 0
+            sysctlbyname("hw.model", nil, &modelSize, nil, 0)
+            if modelSize > 0 {
+                var modelMachine = [CChar](repeating: 0, count: modelSize)
+                sysctlbyname("hw.model", &modelMachine, &modelSize, nil, 0)
+                brand = String(cString: modelMachine).trimmingCharacters(in: .whitespacesAndNewlines)
+            }
+        }
+        if brand.isEmpty {
+            brand = "Apple Silicon"
+        }
+
+        let cores = ProcessInfo.processInfo.processorCount
+        self.chipName = brand
+        self.coreCount = cores
+        self.hardwareSummary = "\(brand) · \(cores) Cores"
     }
 
     private func registerRefreshJob() {

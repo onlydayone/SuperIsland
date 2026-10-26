@@ -8,12 +8,20 @@ struct SystemStatsExpandedView: View {
             // Header
             HStack(spacing: 8) {
                 Image(systemName: "cpu")
-                    .font(.system(size: 14, weight: .bold))
+                    .font(.system(size: 15, weight: .bold))
                     .foregroundColor(.cyan)
 
-                Text("System Monitor")
-                    .font(.system(size: 13, weight: .semibold))
-                    .foregroundColor(.white)
+                VStack(alignment: .leading, spacing: 1) {
+                    Text("System Monitor")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundColor(.white)
+
+                    if !manager.hardwareSummary.isEmpty {
+                        Text(manager.hardwareSummary)
+                            .font(.system(size: 9, weight: .medium))
+                            .foregroundColor(.white.opacity(0.52))
+                    }
+                }
 
                 Spacer()
 
