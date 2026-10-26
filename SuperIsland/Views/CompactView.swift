@@ -82,6 +82,8 @@ struct CompactView: View {
                     NotificationCompactView()
                 case .builtIn(.teleprompter):
                     TeleprompterCompactView()
+                case .builtIn(.systemStats):
+                    SystemStatsCompactView()
                 case .extension_(let extensionID):
                     ExtensionRendererView(extensionID: extensionID, displayMode: .compact)
                 }

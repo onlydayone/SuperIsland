@@ -26,6 +26,7 @@ enum ModuleType: String, CaseIterable, Identifiable {
     case weather
     case notifications
     case teleprompter
+    case systemStats
     var id: String { rawValue }
 
     var displayName: String {
@@ -39,6 +40,7 @@ enum ModuleType: String, CaseIterable, Identifiable {
         case .weather: return "Weather"
         case .notifications: return "Notifications"
         case .teleprompter: return "Teleprompter"
+        case .systemStats: return "System Stats"
         }
     }
 
@@ -53,6 +55,7 @@ enum ModuleType: String, CaseIterable, Identifiable {
         case .weather: return "cloud.sun.fill"
         case .notifications: return "bell.fill"
         case .teleprompter: return "scroll"
+        case .systemStats: return "cpu"
         }
     }
 }
@@ -268,6 +271,7 @@ final class AppState: ObservableObject {
     @AppStorage("module.notifications.maxRetainedItems") var notificationMaxRetainedItems: Double = 10
     @AppStorage("module.notifications.enabledSources") private var notificationEnabledSourcesRaw = NotificationFeedSource.defaultEnabledRawValue
     @AppStorage("module.teleprompter.enabled") var teleprompterEnabled = false
+    @AppStorage("module.systemStats.enabled") var systemStatsEnabled = true
     @AppStorage("module.shelf.autoOpenOnDrop") var shelfAutoOpenOnDrop = true
     @AppStorage("module.shelf.defaultToShelf") var shelfDefaultToShelf = false
 
@@ -914,6 +918,7 @@ final class AppState: ObservableObject {
         case .weather: return weatherEnabled
         case .notifications: return notificationsEnabled
         case .teleprompter: return teleprompterEnabled
+        case .systemStats: return systemStatsEnabled
         }
     }
 

@@ -25,6 +25,8 @@ struct ExpandedView: View {
                     NotificationExpandedView()
                 case .builtIn(.teleprompter):
                     TeleprompterExpandedView()
+                case .builtIn(.systemStats):
+                    SystemStatsExpandedView()
                 case .extension_(let extensionID):
                     ExtensionRendererView(extensionID: extensionID, displayMode: .expanded)
                 }

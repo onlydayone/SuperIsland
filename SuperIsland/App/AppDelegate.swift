@@ -134,6 +134,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 permissions.requestTeleprompterWordTrackingAccess()
             }
         }
+        if state.systemStatsEnabled {
+            _ = SystemStatsManager.shared
+        }
 
         let extensions = ExtensionManager.shared
         extensions.discoverExtensions()
@@ -426,6 +429,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             if newState {
                 PermissionsManager.shared.requestTeleprompterWordTrackingAccess()
             }
+        case .systemStats:
+            AppState.shared.systemStatsEnabled = newState
         }
         sender.state = newState ? .on : .off
         rebuildStatusMenu()

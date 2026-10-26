@@ -56,6 +56,8 @@ struct ModuleSettingsView: View {
                 shelfRetentionRow
                 SettingRowDivider()
                 SettingToggleRow(title: "Connectivity", isOn: $appState.connectivityEnabled)
+                SettingRowDivider()
+                SettingToggleRow(title: "System Stats", description: "Real-time CPU, RAM, and network speed monitor.", isOn: $appState.systemStatsEnabled)
             }
 
             SettingSectionLabel(title: "Information")
