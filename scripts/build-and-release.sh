@@ -62,17 +62,7 @@ fi
 rm -rf "${APP_PATH}"
 cp -R "${APP_IN_ARCHIVE}" "${APP_PATH}"
 
-echo "==> Bundling Node.js runtime..."
-NODE_VERSION="20.19.0"
-NODE_TMP="$(mktemp -d)"
-curl -fsSL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-darwin-arm64.tar.gz" \
-  | tar -xz -C "${NODE_TMP}" --strip-components=2 "node-v${NODE_VERSION}-darwin-arm64/bin/node"
-cp "${NODE_TMP}/node" "${APP_PATH}/Contents/Resources/node"
-chmod +x "${APP_PATH}/Contents/Resources/node"
-rm -rf "${NODE_TMP}"
-echo "   Bundled node v${NODE_VERSION} ($(du -sh "${APP_PATH}/Contents/Resources/node" | cut -f1))"
-
-echo "==> Re-signing app (required after injecting node binary)..."
+echo "==> Re-signing app..."
 # Sign the bundled node binary with JIT entitlements (V8 requires executable memory)
 NODE_ENTITLEMENTS="SuperIsland/node.entitlements"
 codesign --sign "${SIGNING_IDENTITY}" --force --options runtime \

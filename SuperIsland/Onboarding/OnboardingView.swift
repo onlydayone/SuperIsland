@@ -573,21 +573,7 @@ private struct OnboardingExtensionInfo: Identifiable {
             description: "Focus timer with countdown in the island",
             fallbackIcon: "timer",
             badge: nil
-        ),
-        OnboardingExtensionInfo(
-            id: "superisland.whatsapp-web",
-            name: "WhatsApp Web",
-            description: "Route WhatsApp messages to the island",
-            fallbackIcon: "message.fill",
-            badge: "Requires Login"
-        ),
-        OnboardingExtensionInfo(
-            id: "superisland.ai-usage",
-            name: "AI Usage",
-            description: "Claude & Codex usage rings in the notch",
-            fallbackIcon: "brain.head.profile",
-            badge: nil
-        ),
+        )
     ]
 }
 

@@ -412,10 +412,7 @@ final class ExtensionJSRuntime {
 
         let getAIUsage: @convention(block) () -> JSValue? = { [weak self] in
             guard let self else { return nil }
-            guard self.manifest.permissions.contains("usage") else {
-                return JSValue(nullIn: self.context)
-            }
-            return JSValue(object: AIUsageProvider.snapshot(), in: self.context)
+            return JSValue(nullIn: self.context)
         }
 
         let getNowPlaying: @convention(block) () -> JSValue? = { [weak self] in

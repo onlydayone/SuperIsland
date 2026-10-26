@@ -10,10 +10,6 @@ settings:
     SWIFT_VERSION: "5.9"
     MACOSX_DEPLOYMENT_TARGET: "14.0"
     ARCHS: "$(ARCHS_STANDARD)"
-packages:
-  Aptabase:
-    url: https://github.com/aptabase/aptabase-swift
-    from: "0.3.0"
 targets:
   SuperIsland:
     type: application
@@ -26,8 +22,6 @@ targets:
         excludes:
           - "**/.DS_Store"
           - "**/*.md"
-    dependencies:
-      - package: Aptabase
     scheme:
       buildImplicitDependencies: true
       testTargets:
@@ -58,19 +52,7 @@ targets:
           DEST="${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/BundledExtensions"
           mkdir -p "$DEST"
 
-          # Pre-bundle WhatsApp provider with esbuild so node_modules aren't needed at runtime
-          WA_PROVIDER="${SRCROOT}/Extensions/whatsapp-web/provider"
-          if [ -d "${WA_PROVIDER}/node_modules" ]; then
-            echo "Bundling WhatsApp provider with esbuild..."
-            npx --yes esbuild \
-              "${WA_PROVIDER}/index.mjs" \
-              --bundle \
-              --platform=node \
-              --format=cjs \
-              --outfile="${WA_PROVIDER}/bundle.cjs" 2>&1 && echo "esbuild: done" || echo "esbuild: failed (will use index.mjs)"
-          fi
-
-          for ext in ai-usage pomodoro whatsapp-web agents-status linear-mentions lastfm-scrobbler; do
+          for ext in pomodoro live-football linear-mentions lastfm-scrobbler; do
             SRC="${SRCROOT}/Extensions/${ext}"
             if [ -d "$SRC" ]; then
               rsync -a --delete \
